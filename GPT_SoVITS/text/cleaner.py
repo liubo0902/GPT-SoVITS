@@ -7,8 +7,8 @@ import os
 #     from text import chinese2 as chinese
 #     from text.symbols2 import symbols
 
-from text import symbols as symbols_v1
-from text import symbols2 as symbols_v2
+from GPT_SoVITS.text import symbols as symbols_v1
+from GPT_SoVITS.text import symbols2 as symbols_v2
 
 special = [
     # ("%", "zh", "SP"),

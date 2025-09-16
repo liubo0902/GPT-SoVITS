@@ -30,7 +30,7 @@ import warnings
 
 import torch
 import torchaudio
-from text.LangSegmenter import LangSegmenter
+from GPT_SoVITS.text.LangSegmenter import LangSegmenter
 
 logging.getLogger("markdown_it").setLevel(logging.ERROR)
 logging.getLogger("urllib3").setLevel(logging.ERROR)
@@ -44,10 +44,10 @@ warnings.simplefilter(action="ignore", category=FutureWarning)
 
 version = model_version = os.environ.get("version", "v2")
 
-from config import change_choices, get_weights_names, name2gpt_path, name2sovits_path
+from GSTTS_config import change_choices, get_weights_names, name2gpt_path, name2sovits_path
 
 SoVITS_names, GPT_names = get_weights_names()
-from config import pretrained_sovits_name
+from GSTTS_config import pretrained_sovits_name
 
 path_sovits_v3 = pretrained_sovits_name["v3"]
 path_sovits_v4 = pretrained_sovits_name["v4"]
@@ -93,7 +93,7 @@ punctuation = set(["!", "?", "…", ",", ".", "-", " "])
 import gradio as gr
 import librosa
 import numpy as np
-from feature_extractor import cnhubert
+from GPT_SoVITS.feature_extractor import cnhubert
 from transformers import AutoModelForMaskedLM, AutoTokenizer
 
 cnhubert.cnhubert_base_path = cnhubert_base_path
@@ -118,13 +118,13 @@ def set_seed(seed):
 
 from time import time as ttime
 
-from AR.models.t2s_lightning_module import Text2SemanticLightningModule
+from GPT_SoVITS.AR.models.t2s_lightning_module import Text2SemanticLightningModule
 from peft import LoraConfig, get_peft_model
-from text import cleaned_text_to_sequence
-from text.cleaner import clean_text
+from GPT_SoVITS.text import cleaned_text_to_sequence
+from GPT_SoVITS.text.cleaner import clean_text
 
-from tools.assets import css, js, top_html
-from tools.i18n.i18n import I18nAuto, scan_language_list
+from GSTTS_tools.assets import css, js, top_html
+from GSTTS_tools.i18n.i18n import I18nAuto, scan_language_list
 
 language = os.environ.get("language", "Auto")
 language = sys.argv[-1] if sys.argv[-1] in scan_language_list() else language
@@ -221,7 +221,7 @@ else:
 
 ###todo:put them to process_ckpt and modify my_save func (save sovits weights), gpt save weights use my_save in process_ckpt
 # symbol_version-model_version-if_lora_v3
-from process_ckpt import get_sovits_version_from_path_fast, load_sovits_new
+from GPT_SoVITS.process_ckpt import get_sovits_version_from_path_fast, load_sovits_new
 
 v3v4set = {"v3", "v4"}
 
@@ -485,7 +485,7 @@ def init_hifigan():
         hifigan_model = hifigan_model.to(device)
 
 
-from sv import SV
+from GPT_SoVITS.sv import SV
 
 
 def init_sv_cn():
@@ -595,7 +595,7 @@ def get_first(text):
     return text
 
 
-from text import chinese
+from GPT_SoVITS.text import chinese
 
 
 def get_phones_and_bert(text, language, version, final=False):
@@ -667,7 +667,7 @@ def get_phones_and_bert(text, language, version, final=False):
     return phones, bert.to(dtype), norm_text
 
 
-from module.mel_processing import mel_spectrogram_torch, spectrogram_torch
+from GPT_SoVITS.module.mel_processing import mel_spectrogram_torch, spectrogram_torch
 
 spec_min = -12
 spec_max = 2
@@ -733,7 +733,7 @@ sr_model = None
 def audio_sr(audio, sr):
     global sr_model
     if sr_model == None:
-        from tools.audio_sr import AP_BWE
+        from GSTTS_tools.audio_sr import AP_BWE
 
         try:
             sr_model = AP_BWE(device, DictToAttrRecursive)

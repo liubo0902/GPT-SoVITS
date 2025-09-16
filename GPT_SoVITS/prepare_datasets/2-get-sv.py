@@ -21,12 +21,10 @@ import traceback
 import torchaudio
 
 now_dir = os.getcwd()
-sys.path.append(now_dir)
-sys.path.append(f"{now_dir}/GPT_SoVITS/eres2net")
-from tools.my_utils import clean_path
+from GSTTS_tools.my_utils import clean_path
 from time import time as ttime
 import shutil
-from ERes2NetV2 import ERes2NetV2
+from GPT_SoVITS.eres2net.ERes2NetV2 import ERes2NetV2
 import kaldi as Kaldi
 
 
